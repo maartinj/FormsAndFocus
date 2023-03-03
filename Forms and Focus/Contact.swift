@@ -16,4 +16,11 @@ struct Contact: Identifiable, Codable {
     var email: String
 
     static var fileName = "Contacts.json"
+    
+    static var sampleContacts: [Contact] {
+        [
+        Contact(firstName: "Stewart", lastName: "Lynch", email: "slynch@createchsol.com"),
+        Contact(firstName: "Johnny", lastName: "Appleseed", email: "johnny@apple.com")
+        ]
+    }
 }

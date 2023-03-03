@@ -11,9 +11,15 @@ import Foundation
 
 class Store: ObservableObject {
     @Published var contacts: [Contact] = []
+    var preview: Bool
 
-    init() {
-        loadContacts()
+    init(preview: Bool = false) {
+        self.preview = preview
+        if preview {
+            self.contacts = Contact.sampleContacts
+        } else {
+            loadContacts()
+        }
     }
 
     // MARK: - CRUD Functions
@@ -46,6 +52,7 @@ class Store: ObservableObject {
 
     // SAVE
     func saveContacts() {
+        if preview { return }
         // Encode and replace file stored in the application document directory
         guard let data = try? JSONEncoder().encode(contacts) else { return }
         let jsonString = String(decoding: data, as: UTF8.self)

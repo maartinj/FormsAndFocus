@@ -9,8 +9,11 @@
 
 import SwiftUI
 
+// Film: https://www.youtube.com/watch?v=VEHn4WanW5g&ab_channel=StewartLynch
+
 struct ContactsListView: View {
     @EnvironmentObject var store: Store
+    @State private var formType: FormType?
     var body: some View {
         NavigationView {
             List {
@@ -26,7 +29,7 @@ struct ContactsListView: View {
                         }
                         Spacer()
                         Button {
-                            // Present form displaying selected target
+                            formType = .update(contact)
                         } label: {
                             Text("Edit")
                         }
@@ -40,13 +43,14 @@ struct ContactsListView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                       // present form to create new contact
+                        formType = .new
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .font(.title3)
                     }
                 }
             }
+            .sheet(item: $formType) { $0 }
         }
         .navigationViewStyle(.stack)
     }
@@ -55,6 +59,6 @@ struct ContactsListView: View {
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         ContactsListView()
-            .environmentObject(Store())
+            .environmentObject(Store(preview: true))
     }
 }
